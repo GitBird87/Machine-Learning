@@ -18,18 +18,17 @@ grad = zeros(size(theta));
 %               derivatives of the cost w.r.t. each parameter in theta
 
 
-H = (1 + exp(- X * theta));
-H = 1 ./ H;
+H = sigmoid(X*theta);
 
 J = (y .* log(H) + (1 - y) .* log(1 - H));
 J = sum(J) / m;
-J = - J + sum(theta .* theta) * lambda / (2 * m);
+J = - J + sum(theta(2:end) .* theta(2:end)) * lambda / (2 * m);
 
 grad(1) = sum((H - y) .* X(:, 1)) / m;
 
 feature_num = length(theta);
 
-for i = 1:feature_num
+for i = 2:feature_num
    grad(i) = sum((H - y) .* X(:, i)) / m + lambda * theta(i) / m;
 end
 
